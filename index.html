@@ -26,10 +26,10 @@
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
                            <button id="minusBtn" class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" id="countPhn" class="form-control text-center" value="1">
+                           <input type="text" id="countPhn" class="form-control text-center" value="0">
                            <button id="plusBtn" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$<span id="phnPrice">1219</span></h5>
+                        <h5>$<span id="phnPrice">0</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -44,11 +44,11 @@
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
                            <button id="case-minus-btn" class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input id="numOfCase" type="text" class="form-control text-center" value="1">
+                           <input id="numOfCase" type="text" class="form-control text-center" value="0">
                            <button id="case-plus-btn"class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$<span id="casePrice">59</span></h5>
+                        <h5>$<span id="casePrice">0</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -59,14 +59,14 @@
 
                      <div class="col-md-8">
                         <h5>Subtotal: </h5>
-                        <h5>Tax:</h5>
+                        <h5>Tax (4%):</h5>
                         <h5>Total:</h5>
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$<span id="subtotal">0</span></h5>
+                        <h5>$<span id="tax">0</span></h5>
+                        <h5>$<span id="total">000</span></h5>
                      </div>
                   </div>
                </div>
@@ -85,35 +85,79 @@
             let inputValue = document.getElementById(id).value;
             return inputValue = parseInt(inputValue);
          }
-         function totalPrice (numberOfPhone,price,priceId,cntId){
-               let totalPrice = price * numberOfPhone;
-               //update price
-               document.getElementById(priceId).innerText = totalPrice;
-               document.getElementById(cntId).value = numberOfPhone;
+         function stringToNumber(id){
+            let inputValue = document.getElementById(id).innerText;
+            return inputValue = parseInt(inputValue);
          }
+       
             numberOfPhone = valueToNumber("countPhn");
             numOfCase = valueToNumber("numOfCase")
+           
+           
+            // subtotal = stringToNumber("subtotal");
+            // tax = stringToNumber("tax")
+            // total = stringToNumber("total");
+
+         function totalPriceCalculation (numberOfPhone,price,priceId,cntId){
+               let totalPrice = price * numberOfPhone;
+               //update value
+               document.getElementById(priceId).innerText = totalPrice;
+               document.getElementById(cntId).value = numberOfPhone;
+               return totalPrice;
+         }
+
+         function finalTotalCalculation(){
+
+         }
          // Plus btn Listener:
          document.getElementById("plusBtn").addEventListener("click",function(){
                numberOfPhone++;
-               totalPrice(numberOfPhone,1219,"phnPrice","countPhn");          
+               let totalPhnPrice = totalPriceCalculation(numberOfPhone,1219,"phnPrice","countPhn");  
+               casePrice = stringToNumber("casePrice");
+               let subTotal = totalPhnPrice + casePrice;
+               document.getElementById("subtotal").innerText = subTotal;  
+               let tax = (subTotal/100)*4
+               document.getElementById("tax").innerText = tax;
+               let finalTotal = tax + subTotal;
+               document.getElementById("total").innerText = finalTotal;      
          });
         
          // Minus Btn Listener:
          document.getElementById("minusBtn").addEventListener("click",function(){
                numberOfPhone--;
-               totalPrice(numberOfPhone,1219,"phnPrice","countPhn"); 
+               let totalPhnPrice = totalPriceCalculation(numberOfPhone,1219,"phnPrice","countPhn"); 
+               casePrice = stringToNumber("casePrice");
+               let subTotal = totalPhnPrice + casePrice;
+               document.getElementById("subtotal").innerText = subTotal;
+               let tax = (subTotal/100)*4
+               document.getElementById("tax").innerText = tax;
+               let finalTotal = tax + subTotal;
+               document.getElementById("total").innerText = finalTotal;  
          });
 
           // Case Plus btn Listener:
           document.getElementById("case-plus-btn").addEventListener("click",function(){
                numOfCase++;
-               totalPrice(numOfCase,59,"casePrice","numOfCase");          
+               let totalCasePrice = totalPriceCalculation(numOfCase,59,"casePrice","numOfCase"); 
+               phnPrice = stringToNumber("phnPrice");
+               let subTotal = totalCasePrice + phnPrice;
+               document.getElementById("subtotal").innerText = subTotal;
+               let tax = (subTotal/100)*4
+               document.getElementById("tax").innerText = tax;
+               let finalTotal = tax + subTotal;
+               document.getElementById("total").innerText = finalTotal;  
          });
           // Case Minus Btn Listener:
           document.getElementById("case-minus-btn").addEventListener("click",function(){
                numOfCase--;
-               totalPrice(numOfCase,59,"casePrice","numOfCase");
+               let totalCasePrice = totalPriceCalculation(numOfCase,59,"casePrice","numOfCase");
+               phnPrice = stringToNumber("phnPrice");
+               let subTotal = totalCasePrice + phnPrice;
+               document.getElementById("subtotal").innerText = subTotal;
+               let tax = (subTotal/100)*4
+               document.getElementById("tax").innerText = tax;
+               let finalTotal = tax + subTotal;
+               document.getElementById("total").innerText = finalTotal;  
          });
 </script>
 </html>
